@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './App.css';
+import './AuthorQuiz.css';
 import './bootstrap.min.css';
 
 function Hero() {
@@ -57,14 +57,25 @@ function Book({title, onClick}) {
   )
 }
 
-function Continue() {
+function Continue({show, onContinue}) {
   return (
-    <div className="row">
-
+    <div className="row continue">
+    { show
+      ? <div className="coll-11">
+          <button className="btn btn-primary btn-lg float-right continue" onClick={onContinue}>Continue</button>
+      </div>
+      : null }
     </div>
   )
 }
-
+function Menu() {
+  return (
+    <nav className="navbar navbar-light bg-light">
+      <Link to="/">Home</Link>
+      <Link to="/add">Add an author</Link>
+    </nav>
+  )
+}
 function Footer() {
   return (<div className="row">
     <div className="col-12">
@@ -75,14 +86,14 @@ function Footer() {
   </div>)
 }
 
-function AuthorQuiz({turnData, highlight, onAnswerSelected}) {
+function AuthorQuiz({turnData, highlight, onAnswerSelected, onContinue}) {
   return (
     <div className="container-fluid">
+      <Menu />
       <center><h2>Author Quiz Application</h2></center>
       <Hero />
       <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected} />
-      <Continue />
-      <p><Link to="/add">Add an author</Link></p>
+      <Continue show={highlight === 'correct'} onContinue={onContinue}/>
       <Footer />
     </div>
   );
